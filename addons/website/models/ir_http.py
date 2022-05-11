@@ -254,8 +254,8 @@ class Http(models.AbstractModel):
             return cls._handle_exception(e, code=404)
 
         if getattr(request, 'website_multilang', False) and request.httprequest.method in ('GET', 'HEAD'):
-            generated_path = werkzeug.url_unquote_plus(path)
-            current_path = werkzeug.url_unquote_plus(request.httprequest.path)
+            generated_path = werkzeug.urls.url_unquote_plus(path)
+            current_path = werkzeug.urls.url_unquote_plus(request.httprequest.path)
             if generated_path != current_path:
                 if request.lang != request.website.default_lang_code:
                     path = '/' + request.lang + path

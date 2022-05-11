@@ -21,7 +21,7 @@ import threading
 import traceback
 
 import werkzeug.serving
-import werkzeug.contrib.fixers
+import werkzeug.middleware.proxy_fix
 
 import odoo
 import odoo.tools.config as config
@@ -181,6 +181,6 @@ def application_unproxied(environ, start_response):
 
 def application(environ, start_response):
     if config['proxy_mode'] and 'HTTP_X_FORWARDED_HOST' in environ:
-        return werkzeug.contrib.fixers.ProxyFix(application_unproxied)(environ, start_response)
+        return werkzeug.middleware.proxy_fix.ProxyFix(application_unproxied)(environ, start_response)
     else:
         return application_unproxied(environ, start_response)
