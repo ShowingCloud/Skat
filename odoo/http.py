@@ -29,7 +29,7 @@ from datetime import datetime, date
 import passlib.utils
 import psycopg2
 import json
-import werkzeug.contrib.sessions
+import secure_cookie.session
 import werkzeug.datastructures
 import werkzeug.exceptions
 import werkzeug.local
@@ -38,6 +38,7 @@ import werkzeug.wrappers
 import werkzeug.wsgi
 from werkzeug import urls
 from werkzeug.wsgi import wrap_file
+from werkzeug.middleware import shared_data
 
 try:
     import psutil
@@ -1001,7 +1002,7 @@ class AuthenticationError(Exception):
 class SessionExpiredException(Exception):
     pass
 
-class OpenERPSession(werkzeug.contrib.sessions.Session):
+class OpenERPSession(secure_cookie.session.Session):
     def __init__(self, *args, **kwargs):
         self.inited = False
         self.modified = False
@@ -1303,7 +1304,7 @@ class Root(object):
         # Setup http sessions
         path = odoo.tools.config.session_dir
         _logger.debug('HTTP sessions stored in: %s', path)
-        return werkzeug.contrib.sessions.FilesystemSessionStore(
+        return secure_cookie.session.FilesystemSessionStore(
             path, session_class=OpenERPSession, renew_missing=True)
 
     @lazy_property
@@ -1342,7 +1343,7 @@ class Root(object):
 
         if statics:
             _logger.info("HTTP Configuring static files")
-        app = werkzeug.wsgi.SharedDataMiddleware(self.dispatch, statics, cache_timeout=STATIC_CACHE)
+        app = werkzeug.middleware.shared_data.SharedDataMiddleware(self.dispatch, statics, cache_timeout=STATIC_CACHE)
         self.dispatch = DisableCacheMiddleware(app)
 
     def setup_session(self, httprequest):

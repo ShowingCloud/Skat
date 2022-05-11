@@ -22,7 +22,7 @@ except ImportError:
 import werkzeug.exceptions
 import werkzeug.wrappers
 import werkzeug.serving
-import werkzeug.contrib.fixers
+import werkzeug.middleware.proxy_fix
 
 import odoo
 from odoo.tools import config
@@ -129,7 +129,7 @@ try:
     ProxyFix = lambda app: ProxyFix_(app, x_for=1, x_proto=1, x_host=1)
 except ImportError:
     # werkzeug < 0.15
-    from werkzeug.contrib.fixers import ProxyFix
+    from werkzeug.middleware.proxy_fix import ProxyFix
 
 def application(environ, start_response):
     # FIXME: is checking for the presence of HTTP_X_FORWARDED_HOST really useful?
