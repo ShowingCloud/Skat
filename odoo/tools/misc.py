@@ -1128,10 +1128,10 @@ def ignore(*exc):
 # Avoid DeprecationWarning while still remaining compatible with werkzeug pre-0.9
 if parse_version(getattr(werkzeug, '__version__', '0.0')) < parse_version('0.9.0'):
     def html_escape(text):
-        return werkzeug.utils.escape(text, quote=True)
+        return markupsafe.escape(text, quote=True)
 else:
     def html_escape(text):
-        return werkzeug.utils.escape(text)
+        return markupsafe.escape(text)
 
 def babel_locale_parse(lang_code):
     try:
