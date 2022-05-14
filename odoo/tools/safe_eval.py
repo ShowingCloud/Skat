@@ -114,6 +114,7 @@ _SAFE_OPCODES = _EXPR_OPCODES.union(to_opcodes([
     'LOAD_GLOBAL',
 
     'RERAISE', 'JUMP_IF_NOT_EXC_MATCH',
+    'GEN_START',  # added in 3.10 but already removed from 3.11.
 ])) - _BLACKLIST
 
 _logger = logging.getLogger(__name__)
