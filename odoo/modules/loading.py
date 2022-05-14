@@ -69,7 +69,7 @@ def load_data(cr, idref, mode, kind, package):
             tools.convert_file(cr, package.name, filename, idref, mode, noupdate, kind)
     finally:
         if kind in ('demo', 'test'):
-            threading.currentThread().testing = False
+            threading.current_thread().testing = False
 
     return bool(filename)
 
