@@ -26,7 +26,7 @@ from pickle import load
 from time import time
 
 from werkzeug.datastructures import CallbackDict
-from werkzeug.posixemulation import rename
+from os import replace as rename
 
 _sha1_re = re.compile(r"^[a-f0-9]{40}$")
 
